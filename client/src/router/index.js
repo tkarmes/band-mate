@@ -6,6 +6,10 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import ArtistsView from '../views/ArtistsView.vue'
+import TalentsView from '../views/TalentsView.vue'
+import AdminView from '../views/AdminView.vue'
+
 
 
 /**
@@ -21,9 +25,7 @@ const routes = [
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: {
-        requiresAuth: true
-      }
+      
     },
     {
       path: "/login",
@@ -42,11 +44,36 @@ const routes = [
       }
     },
     {
+      path: "/artists",
+      name: "artists",
+      component: ArtistsView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/talents",
+      name: "talents",
+      component: TalentsView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: "/register",
       name: "register",
       component: RegisterView,
       meta: {
         requiresAuth: false
+      }
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: AdminView,
+      meta: {
+        requiresAuth: true,
+        role: "ROLE_ADMIN" // Ensure this route is only accessible by admin users
       }
     }
   ];
@@ -57,19 +84,33 @@ const router = createRouter({
   routes: routes
 });
 
-router.beforeEach((to) => {
+// router.beforeEach((to) => {
 
-  // Get the Vuex store
+//   // Get the Vuex store
+//   const store = useStore();
+
+//   // Determine if the route requires Authentication
+//   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+//   // If it does and they are not logged in, send the user to "/login"
+//   if (requiresAuth && store.state.token === '') {
+//     return {name: "login"};
+//   }
+//   // Otherwise, do nothing and they'll go to their next destination
+// });
+
+router.beforeEach((to, from, next) => {
   const store = useStore();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const role = to.meta.role;
 
-  // Determine if the route requires Authentication
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-
-  // If it does and they are not logged in, send the user to "/login"
   if (requiresAuth && store.state.token === '') {
-    return {name: "login"};
+    next({ name: "login" });
+  } else if (role && store.state.user.role !== role) {
+    next({ name: "home" }); // Redirect non-admins to home
+  } else {
+    next();
   }
-  // Otherwise, do nothing and they'll go to their next destination
 });
 
 export default router;

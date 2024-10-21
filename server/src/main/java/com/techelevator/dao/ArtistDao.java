@@ -12,7 +12,6 @@ public interface ArtistDao {
 
     Artist updateArtist(Artist artist);
 
-    //boolean deleteArtist(String name);
 
     boolean deleteArtist(int id);
 

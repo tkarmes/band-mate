@@ -28,7 +28,7 @@ public class ArtistsController {
         this.genreDao = genreDao;
     }
 
-    //@RequestMapping(method = RequestMethod.GET)
+
 
     @GetMapping
     public List<Artist> getAllArtists(){

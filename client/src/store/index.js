@@ -4,10 +4,20 @@ import axios from 'axios';
 export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
+      artists:[],
+      talents:[],
       token: currentToken || '',
       user: currentUser || {},
     },
     mutations: {
+
+      SET_ARTISTS(state, artists) {
+        state.artists = artists;
+      },
+      SET_TALENTS(state, talents) {
+        state.talents = talents;
+      },
+
       SET_AUTH_TOKEN(state, token) {
         state.token = token;
         localStorage.setItem('token', token);

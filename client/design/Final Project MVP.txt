@@ -1,0 +1,20 @@
+﻿As an unauthenticated user I can… 
+● View the Home Page 
+● Login 
+
+
+As an authenticated user I can… 
+● View the Home Page 
+● View a list of Artists 
+● View a list of Talents 
+● Logout 
+
+
+As an admin user I can… 
+● View the Home Page
+● View a list of Artists 
+● View a list of Talents 
+● Add Talents 
+● Delete Talents 
+● Post Talents 
+● Logout
